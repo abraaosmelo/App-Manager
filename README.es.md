@@ -57,6 +57,10 @@ Para generar el `.exe` usted mismo: `build_exe.bat`. **F1** abre la Ayuda dentro
 
 Añada sus programas y descripciones en `categories.local.json` (opcional, mismo formato que `categories.json`; sus entradas ganan) y reescanee. Traducciones en `lang/`. Ayuda completa: [English](help/en.md), [Português](help/pt.md), [Español](help/es.md).
 
+## Contribuir
+
+Es un proyecto de hobby, hecho en mi tiempo libre con [Claude Code](https://claude.com/claude-code) ("vibe coding"). Está lejos de ser perfecto y **toda ayuda es bienvenida**: reportar errores, ideas, un nuevo idioma, entradas del catálogo, pruebas o código. Vea [CONTRIBUTING.md](CONTRIBUTING.md) (en inglés) con ideas para empezar y abra un [issue](https://github.com/thomasmeneghelli/App-Manager/issues) o un pull request. Si le gusta, una ⭐ ayuda a que otros lo encuentren.
+
 ## Licencia
 
 [MIT](LICENSE)

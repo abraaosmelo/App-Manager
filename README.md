@@ -73,6 +73,10 @@ Add your own programs and descriptions in `categories.local.json` (optional, sam
 | `assets/`, `tools/make_logo.py` | Logo, icon and their generator |
 | `build_exe.bat` | Builds the portable `.exe` (PyInstaller) |
 
+## Contributing
+
+This is a hobby project, made in my spare time with [Claude Code](https://claude.com/claude-code) ("vibe coding"). It is far from perfect, and **help is very welcome**: bug reports, ideas, a new language, catalog entries, tests, or code. See [CONTRIBUTING.md](CONTRIBUTING.md) for ideas to start with, and open an [issue](https://github.com/thomasmeneghelli/App-Manager/issues) or a pull request. If you like it, a ⭐ helps others find it.
+
 ## License
 
 [MIT](LICENSE)
