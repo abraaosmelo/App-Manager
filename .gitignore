@@ -1,0 +1,24 @@
+# Dados gerados na sua máquina (pessoais, não vão para o GitHub)
+index.json
+user.json
+updates.json
+icons/
+backup/
+# nomes antigos (versões em português)
+indice.json
+usuario.json
+atualizacoes.json
+__pycache__/
+*.pyc
+*.lnk
+desktop.ini
+erro.log
+
+# Geração do .exe (o .exe vai em Releases, não no repositório)
+build/
+dist/
+*.spec
+
+# Seu catálogo e traduções privados
+categories.local.json
+lang.local.*.json

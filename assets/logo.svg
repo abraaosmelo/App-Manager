@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="App-Manager">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#1e40af"/>
+    </linearGradient>
+  </defs>
+  <rect x="41" y="41" width="942" height="942" rx="225" fill="url(#bg)"/>
+  <rect x="225" y="225" width="256" height="256" rx="61" fill="#fff"/>
+  <rect x="543" y="225" width="256" height="256" rx="61" fill="#fff"/>
+  <rect x="225" y="543" width="256" height="256" rx="61" fill="#fff"/>
+  <rect x="543" y="543" width="256" height="256" rx="61" fill="#34d399"/>
+</svg>
