@@ -25,6 +25,7 @@ Sempre que mexer no app (menus, botões, filtros, atalhos de teclado, categorias
 - `config.py` + `categories.local.json` (privado, gitignored) — o catálogo do usuário: entradas extras, `overrides` (movidos pelo usuário, "Categoria > Subcategoria"), `launchers.raizes_extra`, `limpeza_dias`. `config.load()` mescla os dois (entradas locais vencem); o app só grava no local.
 - `assets/` — `logo.svg`, `logo-64.png`, `logo-256.png`, `icon.ico`; gerados por `tools/make_logo.py`.
 - `backup/atalhos/` — cópias de atalhos enviados à Lixeira (para Desfazer).
+- `docs/screenshots/` — capturas do README, tiradas com dados FICTÍCIOS (nunca do seu próprio `index.json`); ficam fora de `assets/` para não entrarem no `.exe`.
 - `build_exe.bat` — gera `dist\App-Manager.exe` com PyInstaller (`--onefile --noconsole`, embute `lang/`, `help/`, `assets/`, `categories.json`). Os subprocessos precisam de `stdin=DEVNULL` (sem console).
 
 ## Segurança

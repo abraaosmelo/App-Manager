@@ -6,6 +6,13 @@
 
 A catalog of the programs installed on **Windows**: what each one does, when you last used it, how much space it takes, its category, and buttons to open, update or uninstall it. Plain Python + Tkinter, no external dependencies, everything runs locally. The interface is in **English by default**, with **Português** and **Español** one click away (menu 🌐 *Language*).
 
+## Screenshots
+
+<p align="center"><img src="docs/screenshots/main-light.png" alt="Main window, light theme" width="820"></p>
+<p align="center"><img src="docs/screenshots/category-dark.png" alt="Category view, dark theme" width="400"> <img src="docs/screenshots/summary.png" alt="Summary with charts" width="400"></p>
+
+_Sample data (made-up programs), light and dark themes._
+
 ## Requirements
 
 | | |

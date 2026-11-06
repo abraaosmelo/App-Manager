@@ -6,6 +6,13 @@
 
 Catálogo dos programas instalados no **Windows**: o que cada um faz, quando foi usado, quanto ocupa, categorias, e botões para abrir, atualizar ou desinstalar. Python + Tkinter, sem dependências externas, tudo local. A interface vem em **inglês por padrão**, com **Português** e **Español** a um clique (menu 🌐 *Idioma*).
 
+## Capturas de tela
+
+<p align="center"><img src="docs/screenshots/main-light.png" alt="Janela principal, tema claro" width="820"></p>
+<p align="center"><img src="docs/screenshots/category-dark.png" alt="Categoria, tema escuro" width="400"> <img src="docs/screenshots/summary.png" alt="Resumo com gráficos" width="400"></p>
+
+_Dados de exemplo (programas fictícios), temas claro e escuro. A interface das capturas está em inglês, o idioma padrão._
+
 ## Requisitos
 
 | | |
