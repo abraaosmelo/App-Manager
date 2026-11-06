@@ -1,16 +1,16 @@
-"""Gera assets/logo-*.png e assets/icon.ico (sem dependências). Uso: python tools/make_logo.py"""
+"""Generate assets/logo-*.png and assets/icon.ico (no dependencies). Usage: python tools/make_logo.py"""
 import struct, zlib
 from pathlib import Path
 
 OUT = Path(__file__).resolve().parent.parent / "assets"
-TOP, BOTTOM = (59, 130, 246), (30, 64, 175)          # gradiente do fundo
-WHITE, ACCENT = (255, 255, 255), (52, 211, 153)       # blocos
+TOP, BOTTOM = (59, 130, 246), (30, 64, 175)          # background gradient
+WHITE, ACCENT = (255, 255, 255), (52, 211, 153)       # blocks
 TILES = [(0.22, 0.22, WHITE), (0.53, 0.22, WHITE), (0.22, 0.53, WHITE), (0.53, 0.53, ACCENT)]
 TILE, TILE_R, BG_R, MARGIN = 0.25, 0.06, 0.22, 0.04
 
 
 def inside(x, y, x0, y0, w, h, r):
-    """Ponto dentro de um retângulo arredondado?"""
+    """Is the point inside a rounded rectangle?"""
     if not (x0 <= x <= x0 + w and y0 <= y <= y0 + h):
         return False
     cx = min(max(x, x0 + r), x0 + w - r)
@@ -19,7 +19,7 @@ def inside(x, y, x0, y0, w, h, r):
 
 
 def render(size, ss=4):
-    """Lista de linhas RGBA (cima para baixo) com antialias por supersampling."""
+    """List of RGBA rows (top to bottom) with antialiasing by supersampling."""
     rows = []
     for py in range(size):
         row = bytearray()
@@ -55,7 +55,7 @@ def png(rows, size):
 
 
 def dib(rows, size):
-    """Imagem BMP (DIB) para ícones pequenos: BGRA de baixo para cima + máscara AND vazia."""
+    """BMP (DIB) image for small icons: bottom-up BGRA + empty AND mask."""
     px = b""
     for r in reversed(rows):
         px += b"".join(bytes((r[i + 2], r[i + 1], r[i], r[i + 3])) for i in range(0, len(r), 4))

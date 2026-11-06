@@ -1,8 +1,8 @@
-"""Configuração do catálogo de programas.
+"""Program catalog configuration.
 
-- categories.json: catálogo padrão (versionado; no .exe vem embutido).
-- categories.local.json: o SEU catálogo (privado, ignorado pelo git): entradas extras, categorias movidas ("overrides"),
-  pastas extras para procurar .bat ("launchers") e "limpeza_dias". As entradas locais vencem as do catálogo padrão."""
+- categories.json: default catalog (versioned; bundled inside the .exe).
+- categories.local.json: YOUR catalog (private, ignored by git): extra entries, moved categories ("overrides"),
+  extra folders to look for .bat files ("launchers") and "limpeza_dias". Local entries win over the default catalog."""
 import json
 from paths import APP, RES
 
@@ -27,7 +27,7 @@ def save_local(cfg):
 
 
 def load():
-    """Catálogo mesclado (padrão + local)."""
+    """Merged catalog (default + local)."""
     base, local = _read(BASE_FILE), load_local()
     cfg = dict(base)
     cfg["catalogo"] = local.get("catalogo", []) + base.get("catalogo", [])

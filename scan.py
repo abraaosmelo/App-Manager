@@ -1,7 +1,7 @@
-"""Varre atalhos do Menu Iniciar + registro do Windows e gera index.json (somente leitura).
+"""Scan Start Menu shortcuts + the Windows registry and generate index.json (read-only).
 
-Fase 1: grava a lista rapidamente (tamanhos = null, "sizing": true).
-Fase 2: calcula os tamanhos em seguida, regravando o arquivo aos poucos.
+Phase 1: writes the list quickly (sizes = null, "sizing": true).
+Phase 2: then computes the sizes, rewriting the file gradually.
 """
 import hashlib, json, os, re, subprocess, tempfile, time
 from pathlib import Path
@@ -94,7 +94,7 @@ def dir_size(p):
 
 
 def catalog_hit(item, cfg):
-    """Primeira entrada do catálogo cujo termo aparece no NOME (prefixo '=' = nome exato)."""
+    """First catalog entry whose term appears in the NAME (prefix '=' = exact name)."""
     nm = item["name"].lower()
     for e in cfg.get("catalogo", []):
         for k in e["k"]:
@@ -114,7 +114,7 @@ def purpose_of(item, cfg):
 
 
 def categorize(item, cfg):
-    """Devolve (categoria, subcategoria)."""
+    """Return (category, subcategory)."""
     over = cfg.get("overrides", {}).get(item["name"])
     if over:
         c, _, s = over.partition(" > ")
@@ -129,7 +129,7 @@ def categorize(item, cfg):
     return "Outros", "Geral"
 
 
-# ---------- programas que abrem por .bat/.cmd (portáteis, sem instalador) ----------
+# ---------- programs launched by .bat/.cmd (portable, no installer) ----------
 LAUNCH = re.compile(r"(^|[^a-z0-9])(run|start|launch|launcher|iniciar|abrir|open|play|webui|server|gui|main|app)([^a-z0-9]|$)", re.I)
 GENERIC_STEM = re.compile(r"(run|start|launch|launcher|iniciar|abrir|open|play|webui|server|gui|main|app)([ _-].*)?", re.I)
 LAUNCH_EXCL = re.compile(r"(un)?install|setup|activate|conda|(^|[^a-z])(npm|npx|node|dart|bun|yarn)([^a-z]|$)|^pre_|^post_|"
@@ -178,7 +178,7 @@ def bat_command(path):
 
 
 def find_launchers(cfg, skip_locs, self_dir):
-    """Pastas com .bat/.cmd de inicialização (ex.: run.bat) -> lista de itens (um por pasta)."""
+    """Folders with startup .bat/.cmd files (e.g. run.bat) -> list of items (one per folder)."""
     seen, groups = set(), {}
     for root, maxd, only_strong_at_top in launcher_roots(cfg):
         if not root.is_dir():
@@ -195,7 +195,7 @@ def find_launchers(cfg, skip_locs, self_dir):
             dn[:] = [d for d in dn if d.lower() not in LAUNCH_SKIPDIRS and not d.startswith(".")] if depth < maxd else []
             cand = [f for f in fn if f.lower().endswith((".bat", ".cmd")) and not LAUNCH_EXCL.search(Path(f).stem)]
             strong = [f for f in cand if LAUNCH.search(Path(f).stem)]
-            loose = depth == 0 or Path(dp).name.lower() in LOOSE_DIRS      # pasta "solta": não é a pasta de um programa
+            loose = depth == 0 or Path(dp).name.lower() in LOOSE_DIRS      # "loose" folder: not a program folder
             pick = strong or (cand if len(cand) == 1 and not loose else [])
             pick = [f for f in pick if os.path.realpath(os.path.join(dp, f)).lower() not in seen]
             if not pick:
@@ -221,27 +221,27 @@ def find_launchers(cfg, skip_locs, self_dir):
 
 
 def find_uninstall(item, reg_info):
-    """Acha a entrada de desinstalação do registro que corresponde ao item (ou None)."""
+    """Find the registry uninstall entry that matches the item (or None)."""
     tgt = (item.get("target") or "").lower()
     if not tgt or tgt.startswith("c:\\windows"):
         return None
     n = norm(item["name"])
-    # 1) pelo nome (igual ou um começa com o outro)
+    # 1) by name (equal, or one starts with the other)
     for r in reg_info:
         if n and r["n"] and (n == r["n"] or (min(len(n), len(r["n"])) >= 5 and min(len(n), len(r["n"])) / max(len(n), len(r["n"])) >= 0.55
                                              and (r["n"].startswith(n) or n.startswith(r["n"])))):
             return r
-    # 2) pelo executável, só se for exclusivo daquela entrada
+    # 2) by executable, only if exclusive to that entry
     same = [r for r in reg_info if r["exe"] and r["exe"] == tgt]
     if len(same) == 1:
         return same[0]
-    # 3) pela pasta de instalação (a mais específica)
+    # 3) by install folder (the most specific one)
     inside = [r for r in reg_info if r["loc"] and tgt.startswith(r["loc"] + "\\")]
     return max(inside, key=lambda r: len(r["loc"])) if inside else None
 
 
 def install_date(item):
-    """Data de criação da pasta de instalação (ou do executável): aproxima a data de instalação."""
+    """Creation date of the install folder (or of the executable): approximates the install date."""
     for p in (item.get("location"), item.get("target")):
         try:
             if p and os.path.exists(p):
@@ -294,7 +294,7 @@ def main():
             continue
         if SKIP_EXE.search(os.path.basename(tgt)):
             continue
-        if not os.path.isfile(tgt):               # atalho quebrado
+        if not os.path.isfile(tgt):               # broken shortcut
             x.update(location=str(Path(tgt).parent), size=0, broken=True)
             x["category"], x["sub"] = "Atalhos quebrados", categorize(x, cfg)[0]
             x["purpose"] = ("Atalho quebrado: o programa de destino não existe mais (provavelmente foi desinstalado). "
@@ -314,7 +314,7 @@ def main():
         x["category"], x["sub"] = categorize(x, cfg)
         items.append(x)
 
-    # programas instalados sem atalho no Menu Iniciar (registro do Windows)
+    # programs installed without a Start Menu shortcut (Windows registry)
     have = [norm(i["name"]) for i in items if not i.get("broken")]
     locs = [i["location"].lower() for i in items if i.get("location")]
     def _exe(r):
@@ -327,7 +327,7 @@ def main():
     for r in reg:
         nm = r.get("DisplayName") or ""
         e = _exe(r)
-        if e in known or shared.get(e, 0) >= 3 or GENERIC.match(e):     # mesmo exe de outro item / pacote de bibliotecas
+        if e in known or shared.get(e, 0) >= 3 or GENERIC.match(e):     # same exe as another item / library package
             continue
         n = norm(nm)
         if not n or REG_JUNK.search(nm) or any(n in h or h in n for h in have if len(h) > 3):
@@ -339,7 +339,7 @@ def main():
         exe = ico if ico.lower().endswith(".exe") and os.path.isfile(ico) else ""
         if exe and SKIP_EXE.search(os.path.basename(exe)):
             exe = ""
-        if not exe or SKIP.search(nm):      # sem executável abrível = biblioteca/driver, ignora
+        if not exe or SKIP.search(nm):      # no openable executable = library/driver, skip
             continue
         loc = il if il and os.path.isdir(il) else str(Path(exe).parent)
         it = {"lnk": "", "name": nm, "target": exe, "ver": r.get("DisplayVersion") or "",
@@ -350,7 +350,7 @@ def main():
         it["category"], it["sub"] = categorize(it, cfg)
         items.append(it)
 
-    # programas que abrem por .bat/.cmd (sem atalho nem instalador)
+    # programs launched by .bat/.cmd (no shortcut or installer)
     skip_locs = {i["location"].lower().rstrip("\\") for i in items
                  if i.get("location") and not GENERIC.match(i["location"]) and len(Path(i["location"]).parts) >= 2}
     have = {norm(i["name"]) for i in items}
@@ -368,11 +368,11 @@ def main():
             L["category"], L["sub"] = "Programas sem instalador", "Scripts (.bat/.cmd)"
         items.append(L)
 
-    # desinstalador (do registro do Windows) de cada item
+    # uninstaller (from the Windows registry) of each item
     reg_info = []
     for r in reg:
         cmd = uninstall_cmd(r.get("UninstallString"))
-        # ignora desinstaladores que só apagam arquivos (cmd /c del) ou abrem outro app (steam://)
+        # skip uninstallers that only delete files (cmd /c del) or open another app (steam://)
         if not cmd or re.search(r"(?i)^cmd(\.exe)?\s+/c\s+del\b|steam://", cmd):
             continue
         il = (r.get("InstallLocation") or "").strip().strip('"').rstrip("\\").lower()
@@ -386,14 +386,14 @@ def main():
             i["uninstall"], i["uninstall_nome"] = u["cmd"], u["nome"]
         i["instalado"] = (u and u["data"]) or install_date(i)
 
-    # novos / removidos desde o último scan
+    # new / removed since the last scan
     cur = {i["name"] for i in items}
     for i in items:
         if prev and i["name"] not in prev:
             i["novo"] = True
     removed = sorted(n for n in prev if n not in cur and not prev[n].get("broken")) if prev else []
 
-    # ícones
+    # icons
     ICONS.mkdir(exist_ok=True)
     lines = [f"{icon_key(i['target'])}|{i['target']}" for i in items if i.get("target") and os.path.isfile(i["target"])]
     if lines:
@@ -404,13 +404,13 @@ def main():
 
     items.sort(key=lambda i: (i["category"], i.get("sub", ""), i["name"].lower()))
     pend = [i for i in items if i.get("_root")]
-    # reaproveita tamanhos antigos enquanto calcula
+    # reuse old sizes while computing
     for i in pend:
         i["size"] = prev.get(i["name"], {}).get("size")
     save([{k: v for k, v in i.items() if k != "_root"} for i in items], removed, bool(pend))
     print(f"{len(items)} itens (de {len(lnks)} atalhos); calculando tamanhos…", flush=True)
 
-    # fase 2: tamanhos
+    # phase 2: sizes
     for n, i in enumerate(pend, 1):
         i["size"] = dir_size(i["_root"])
         if n % 15 == 0 and n < len(pend):

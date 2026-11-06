@@ -24,10 +24,11 @@ Windows 10/11 and Python 3 with Tkinter. No extra dependencies.
 ## Rules of the project
 
 1. **Texts go through `tr("texto em português")`** (`i18n.py`). The Portuguese text is the key; add the English and Spanish translations in `lang/en.json` and `lang/es.json`.
-2. **Update the Help** (`help/pt.md`, `help/en.md`, `help/es.md`) when you change menus, buttons, shortcuts or behavior, including the index at the top.
-3. **Never commit personal data**: `index.json`, `user.json`, `updates.json`, `icons/`, `backup/`, `categories.local.json`, `lang.local.*.json` are git-ignored. Screenshots must use made-up data.
-4. **Never run an uninstall while testing**; test up to the confirmation dialog.
-5. Keep it simple: standard library only, small functions, no new dependency without a good reason.
+2. **Code comments and docstrings are in English.**
+3. **Update the Help** (`help/pt.md`, `help/en.md`, `help/es.md`) when you change menus, buttons, shortcuts or behavior, including the index at the top.
+4. **Never commit personal data**: `index.json`, `user.json`, `updates.json`, `icons/`, `backup/`, `categories.local.json`, `lang.local.*.json` are git-ignored. Screenshots must use made-up data.
+5. **Never run an uninstall while testing**; test up to the confirmation dialog.
+6. Keep it simple: standard library only, small functions, no new dependency without a good reason.
 
 More details for contributors are in [`CLAUDE.md`](CLAUDE.md) (project structure and conventions).
 

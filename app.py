@@ -9,8 +9,8 @@ from i18n import tr, trc, trd, LANG, LANGS
 from paths import APP as BASE, RES
 from version import APP_NAME, VERSION, REPO_URL
 
-UPD = BASE / "updates.json"                   # cache da última verificação do winget
-BACKUPS = BASE / "backup"                     # backups da configuração
+UPD = BASE / "updates.json"                   # cache of the last winget check
+BACKUPS = BASE / "backup"                     # configuration backups
 COLS = {"versao": (tr("Versão"), 90), "upd": (tr("Atualização"), 105), "tamanho": (tr("Tamanho"), 75), "disco": (tr("Disco"), 45),
         "ultimo": (tr("Último uso"), 150), "vezes": (tr("Vezes usado"), 90), "instalado": (tr("Instalado em"), 95),
         "inicia": (tr("Inicia com Windows"), 140), "tags": (tr("Tags"), 100), "cat": (tr("Categoria › Subcategoria"), 200),
@@ -18,10 +18,10 @@ COLS = {"versao": (tr("Versão"), 90), "upd": (tr("Atualização"), 105), "taman
 DEFAULT_COLS = ["versao", "upd", "tamanho", "disco", "ultimo", "vezes", "instalado", "inicia", "cat", "local"]
 KEEP = ("favoritos", "usos", "ultimo", "descricoes", "notas", "tags", "ocultos", "manuais", "colunas")
 IDX, USR, ICONS = BASE / "index.json", BASE / "user.json", BASE / "icons"
-HELP = RES / "help" / f"{LANG}.md"             # texto da janela Ajuda (mantenha atualizado: ver CLAUDE.md)
+HELP = RES / "help" / f"{LANG}.md"             # text of the Help window (keep it up to date: see CLAUDE.md)
 if not HELP.exists():
     HELP = RES / "help" / "pt.md"
-BACKUP = BASE / "backup" / "atalhos"          # cópia dos atalhos enviados à Lixeira (para poder desfazer)
+BACKUP = BASE / "backup" / "atalhos"          # copies of shortcuts sent to the Recycle Bin (so they can be undone)
 NOWIN = 0x08000000
 MB = 1024 * 1024
 LIGHT = dict(bg="#f3f3f3", fg="#1b1b1b", field="#ffffff", sel="#cfe3ff", selfg="#000000", head="#e0e0e0", link="#0b57d0")
@@ -84,7 +84,7 @@ def fmt_date(s):
         return ""
     try:
         return datetime.date(int(s[:4]), int(s[5:7]), int(s[8:10])).strftime(tr("%d/%m/%Y"))
-    except ValueError:                             # data inválida no registro do Windows
+    except ValueError:                             # invalid date in the Windows registry
         return f"{s[8:10]}/{s[5:7]}/{s[:4]}"
 
 
@@ -94,7 +94,7 @@ def disk_of(i):
 
 
 def self_env():
-    """Ambiente para reabrir o próprio .exe (PyInstaller): o filho deve extrair os seus próprios arquivos."""
+    """Environment for relaunching the .exe itself (PyInstaller): the child must extract its own files."""
     return {**os.environ, "PYINSTALLER_RESET_ENVIRONMENT": "1"}
 
 
@@ -201,9 +201,9 @@ class App(tk.Tk):
         if not self.data.get("items"):
             self.rescan()
 
-    # ---------- idioma ----------
+    # ---------- language ----------
     def build_menus(self, top):
-        """Menus do topo (Arquivo, Exibir, Ferramentas, Idioma, Ajuda). Empacotados da direita para a esquerda."""
+        """Top menus (File, View, Tools, Language, Help). Packed from right to left."""
         def make(title, items, side_pad=(0, 4)):
             m = tk.Menu(self, tearoff=0)
             for it in items:
@@ -238,7 +238,7 @@ class App(tk.Tk):
                              (tr("Sair"), self.destroy, "Ctrl+Q")])
 
     def center(self, w):
-        """Posiciona a janela filha sobre a janela principal."""
+        """Place the child window over the main window."""
         if not w.winfo_exists():
             return
         w.update_idletasks()
@@ -269,7 +269,7 @@ class App(tk.Tk):
 
 
     def set_lang(self, code):
-        """Grava o idioma e reabre o app (os textos são carregados ao iniciar)."""
+        """Save the language and relaunch the app (texts are loaded at startup)."""
         if code == LANG:
             return
         self.usr["idioma"] = code
@@ -282,7 +282,7 @@ class App(tk.Tk):
         subprocess.Popen(cmd, cwd=str(BASE), stdin=subprocess.DEVNULL, creationflags=NOWIN, env=self_env())
         self.destroy()
 
-    # ---------- tema ----------
+    # ---------- theme ----------
     def apply_theme(self):
         p, s = (DARK if self.dark else LIGHT), self.style
         self.configure(bg=p["bg"])
@@ -315,14 +315,14 @@ class App(tk.Tk):
         self.dark = not self.dark
         self.apply_theme()
 
-    # ---------- dados ----------
+    # ---------- data ----------
     @property
     def scan_items(self):
         return self.data.setdefault("items", [])
 
     @property
     def items(self):
-        """Itens do scan + os adicionados manualmente (sem repetir o mesmo executável)."""
+        """Scan items plus those added manually (without repeating the same executable)."""
         have = {x.get("target") for x in self.scan_items}
         return self.scan_items + [m for m in self.usr["manuais"] if m.get("target") not in have]
 
@@ -350,9 +350,9 @@ class App(tk.Tk):
         self.refresh_usage(redraw=False)
         self.refresh()
 
-    # ---------- uso, inicialização, duplicados ----------
+    # ---------- usage, startup, duplicates ----------
     def refresh_usage(self, redraw=True):
-        """Relê o uso (UserAssist do Windows + aberturas por este programa), a inicialização e os duplicados."""
+        """Re-read usage (Windows UserAssist + launches from this program), startup entries and duplicates."""
         try:
             ua = usage.userassist(); by = usage.usage_index(ua); self.startup = usage.startup_entries()
         except Exception:
@@ -374,12 +374,12 @@ class App(tk.Tk):
             self.refresh()
 
     def on_focus(self, e):
-        if e.widget is self and time.time() - self.last_focus > 20:     # ao voltar para a janela, atualiza o uso
+        if e.widget is self and time.time() - self.last_focus > 20:     # when returning to the window, refresh usage
             self.last_focus = time.time()
             self.refresh_usage()
 
     def uniq_size(self, items):
-        """Soma de tamanhos sem contar duas vezes a mesma pasta (vários atalhos do mesmo programa)."""
+        """Sum of sizes without counting the same folder twice (several shortcuts of the same program)."""
         seen, tot = set(), 0
         for i in items:
             k = (i.get("location") or i["name"]).lower()
@@ -620,7 +620,7 @@ class App(tk.Tk):
         self.det.config(state="normal"); self.det.delete("1.0", "end"); self.det.insert("1.0", t)
         self.det.config(state="disabled")
 
-    # ---------- histórico / desfazer ----------
+    # ---------- history / undo ----------
     def log(self, tipo, nome, txt, undo=None):
         self.usr["historico"].append({"quando": time.strftime("%Y-%m-%d %H:%M:%S"), "tipo": tipo, "nome": nome,
                                       "txt": txt, "undo": undo, "revertido": False})
@@ -680,7 +680,7 @@ class App(tk.Tk):
         self.status.config(text=tr("Desfeito: {txt}", txt=e["txt"]))
 
     def restore_lnk(self, backup, orig, done):
-        """Copia o atalho de volta. Se faltar permissão, tenta como administrador (pede senha/confirmação)."""
+        """Copy the shortcut back. If permission is missing, retry as administrator (asks for password/confirmation)."""
         if not os.path.exists(backup):
             messagebox.showerror(tr("Desfazer"), tr("A cópia de segurança não existe mais:\n{p}", p=backup), parent=self)
             return False
@@ -737,7 +737,7 @@ class App(tk.Tk):
         ttk.Button(bar, text=tr("Fechar"), command=w.destroy).pack(side="right")
         w.bind("<Escape>", lambda e: w.destroy())
 
-    # ---------- administrador (pede senha/confirmação do Windows) ----------
+    # ---------- administrator (asks for the Windows password/confirmation) ----------
     def run_admin(self, script, done):
         f = tempfile.NamedTemporaryFile("w", suffix=".ps1", delete=False, encoding="utf-8-sig")
         f.write(script); f.close()
@@ -754,7 +754,7 @@ class App(tk.Tk):
                 done(p.returncode)
         chk()
 
-    # ---------- ações ----------
+    # ---------- actions ----------
     def open_prog(self, target=None):
         i = self.cur()
         if not i: return
@@ -765,10 +765,10 @@ class App(tk.Tk):
             return
         try:
             wd = os.path.dirname(tgt) if not tgt.lower().endswith(".lnk") else None
-            if tgt.lower().endswith(".ps1"):     # .ps1 abriria no editor: roda no PowerShell
+            if tgt.lower().endswith(".ps1"):     # a .ps1 would open in the editor: run it in PowerShell
                 subprocess.Popen(["powershell", "-NoExit", "-ExecutionPolicy", "Bypass", "-File", tgt], cwd=wd)
             elif wd:
-                os.startfile(tgt, cwd=wd)         # scripts .bat/.cmd precisam rodar na própria pasta
+                os.startfile(tgt, cwd=wd)         # .bat/.cmd scripts must run in their own folder
             else:
                 os.startfile(tgt)
             self.usr["usos"][i["name"]] = self.usr["usos"].get(i["name"], 0) + 1
@@ -805,7 +805,7 @@ class App(tk.Tk):
         self.log("descricao", i["name"], tr("Editou a descrição de {n}", n=i["name"]), {"antes": antes})
         self.detail()
 
-    # ---------- notas e tags ----------
+    # ---------- notes and tags ----------
     def edit_notes(self):
         i = self.cur()
         if not i:
@@ -839,7 +839,7 @@ class App(tk.Tk):
         ttk.Button(bar, text=tr("Cancelar"), command=w.destroy).pack(side="right", padx=6)
         w.bind("<Escape>", lambda e: w.destroy())
 
-    # ---------- atualizações (winget) ----------
+    # ---------- updates (winget) ----------
     def check_updates(self):
         if self.upd_thread and self.upd_thread.is_alive():
             return
@@ -881,7 +881,7 @@ class App(tk.Tk):
         subprocess.Popen(["cmd", "/c", cmd], creationflags=0x10)       # CREATE_NEW_CONSOLE
         self.log("atualizar", i["name"], tr("Iniciou a atualização de {n} ({a} → {b}) pelo winget", n=i["name"], a=u["atual"], b=u["nova"]), None)
 
-    # ---------- resumo ----------
+    # ---------- summary ----------
     def show_summary(self):
         w = tk.Toplevel(self); self.after_idle(self.center, w); w.title(tr("Resumo dos programas")); w.geometry("980x720"); w.transient(self)
         p = DARK if self.dark else LIGHT
@@ -941,7 +941,7 @@ class App(tk.Tk):
         cv.configure(scrollregion=(0, 0, 900, y[0] + 20))
         cv.bind_all("<MouseWheel>", lambda e: cv.yview_scroll(-1 * (e.delta // 120), "units") if cv.winfo_exists() else None)
 
-    # ---------- backup da configuração ----------
+    # ---------- configuration backup ----------
     def snapshot(self):
         cfg = config.load_local()
         return {"formato": BACKUP_FORMAT, "quando": time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -976,7 +976,7 @@ class App(tk.Tk):
         if r is None: return
         antes = self.snapshot()
         BACKUPS.mkdir(exist_ok=True); write_json(BACKUPS / f"config-antes-{time.strftime('%Y%m%d-%H%M%S')}.json", antes)
-        if r:                                              # mesclar
+        if r:                                              # merge
             new = json.loads(json.dumps(antes))
             for k, v in snap["usuario"].items():
                 if isinstance(v, list) and isinstance(new["usuario"].get(k), list):
@@ -1001,7 +1001,7 @@ class App(tk.Tk):
         self.refresh()
 
     def add_manual(self):
-        """Adiciona à lista um programa/script que o scan não achou (exe, bat, cmd, ps1, py, jar, lnk)."""
+        """Add a program/script the scan did not find (exe, bat, cmd, ps1, py, jar, lnk)."""
         p = filedialog.askopenfilename(parent=self, title=tr("Escolha o arquivo que abre o programa"),
                                        filetypes=[(tr("Programas e scripts"), "*.exe *.bat *.cmd *.ps1 *.py *.jar *.lnk"),
                                                   (tr("Todos os arquivos"), "*.*")])
@@ -1199,7 +1199,7 @@ class App(tk.Tk):
         self.cur_cat = "__all__" if self.cur_cat.startswith("__") else self.cur_cat
         self.refresh()
 
-    # ---------- exportar ----------
+    # ---------- export ----------
     def export(self):
         path = filedialog.asksaveasfilename(parent=self, defaultextension=".csv", initialfile=tr("programas"),
                                             filetypes=[("CSV (Excel)", "*.csv"), (tr("Página HTML"), "*.html")])
@@ -1221,7 +1221,7 @@ class App(tk.Tk):
                 w = csv.writer(f, delimiter=";"); w.writerow(head); w.writerows(rows)
         messagebox.showinfo(tr("Exportar"), tr("{n} programas exportados (respeitando busca e filtros atuais).", n=len(rows)))
 
-    # ---------- reescanear ----------
+    # ---------- rescan ----------
     def rescan(self):
         if self.proc and self.proc.poll() is None:
             return
@@ -1239,7 +1239,7 @@ class App(tk.Tk):
             self.proc = None
             self.load(force=True)
 
-    # ---------- ajuda (renderiza help/<idioma>.md) ----------
+    # ---------- help (renders help/<language>.md) ----------
     def show_help(self):
         if self.help_win and self.help_win.winfo_exists():
             self.help_win.deiconify(); self.help_win.lift(); self.help_win.focus_set()
@@ -1314,11 +1314,11 @@ class App(tk.Tk):
 
 
 if __name__ == "__main__":
-    if "--scan" in sys.argv:                  # no .exe, o reescaneamento roda o próprio programa com --scan
+    if "--scan" in sys.argv:                  # in the .exe, rescanning runs the program itself with --scan
         import scan
         scan.main()
     else:
-        if getattr(sys, "frozen", False):        # .exe sem console: erros vão para erro.log (ao lado do .exe)
+        if getattr(sys, "frozen", False):        # .exe without console: errors go to erro.log (next to the .exe)
             try:
                 sys.stderr = open(BASE / "erro.log", "a", encoding="utf-8", buffering=1)
             except OSError:

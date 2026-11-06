@@ -7,6 +7,9 @@ A Ajuda do app fica em `help/pt.md`, `help/en.md` e `help/es.md`, renderizada na
 
 Sempre que mexer no app (menus, botões, filtros, atalhos de teclado, categorias, menu de contexto, desinstalação, desfazer, exportação, comportamento do scan, arquivos gerados), atualize **as três Ajudas na mesma alteração**: o texto da seção afetada e, se criar/renomear/remover seção, também o Índice. A tarefa só termina com a Ajuda refletindo o que mudou. Confira que cada link do Índice tem um título correspondente.
 
+## Regra obrigatória: comentários do código em inglês
+Comentários e docstrings dos `.py` (e `.bat`) são escritos em **inglês**. Textos visíveis ao usuário continuam em português dentro de `tr("...")` (a chave de tradução).
+
 ## Regra obrigatória: idiomas (português, English, Español)
 - Todo texto visível ao usuário no código entra por `tr("texto em português")` (`i18n.py`); a chave é o próprio texto em português, com `{campos}` e `.format` via `tr("...", campo=valor)`. Nunca monte frases com f-string sem `tr`.
 - Texto novo precisa de tradução em `lang/en.json` e `lang/es.json` (seção `ui`). Nomes de categoria/subcategoria vão na seção `cat`; descrições do catálogo (`categories.json`, campo `d`) na seção `desc` (chave = texto exato em português); descrições geradas pelo scan, em `patterns`. Traduções do catálogo privado (`categories.local.json`) vão em `lang.local.<idioma>.json` (gitignored), nunca em `lang/`.

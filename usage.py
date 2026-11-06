@@ -1,4 +1,4 @@
-"""Funções de leitura (somente leitura) usadas pelo App-Manager: uso dos programas, inicialização, winget e duplicados."""
+"""Read-only functions used by App-Manager: program usage, startup entries, winget and duplicates."""
 import codecs, datetime, os, re, struct, subprocess
 from pathlib import Path
 
@@ -43,7 +43,7 @@ def _expand(path, known):
 
 
 def userassist():
-    """{caminho_em_minusculas: (vezes, ultimo_uso_datetime|None)} lido do registro (UserAssist, só leitura)."""
+    """{lowercase_path: (times, last_use_datetime|None)} read from the registry (UserAssist, read-only)."""
     import winreg
     known, out = _known(), {}
     try:
@@ -78,7 +78,7 @@ def userassist():
 
 
 def usage_index(ua):
-    """Índice extra por nome de arquivo .lnk (para casar quando o caminho do atalho difere)."""
+    """Extra index by .lnk file name (to match when the shortcut path differs)."""
     by = {}
     for k, v in ua.items():
         if k.endswith(".lnk"):
@@ -89,7 +89,7 @@ def usage_index(ua):
 
 
 def usage_of(item, ua, by_lnk):
-    """(vezes, ultimo_uso) do Windows para um item do índice; (0, None) se não houver registro."""
+    """(times, last_use) from Windows for an index item; (0, None) if there is no record."""
     found = []
     for k in (item.get("target"), item.get("lnk")):
         if k and os.path.normpath(k).lower() in ua:
@@ -103,7 +103,7 @@ def usage_of(item, ua, by_lnk):
     return max(f[0] for f in found), max([f[1] for f in found if f[1]], default=None)
 
 
-# ---------- inicialização com o Windows ----------
+# ---------- startup with Windows ----------
 RUN_KEYS = [("HKCU", r"Software\Microsoft\Windows\CurrentVersion\Run", "Run (usuário)"),
             ("HKLM", r"Software\Microsoft\Windows\CurrentVersion\Run", "Run (todos)"),
             ("HKLM", r"Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Run", "Run (todos, 32 bits)")]
@@ -116,7 +116,7 @@ def _exe_of(cmd):
 
 
 def startup_entries():
-    """Lista de {'exe','nome','onde','ativo'} dos programas que iniciam com o Windows (registro + pasta Inicializar)."""
+    """List of {'exe','nome','onde','ativo'} for programs that start with Windows (registry + Startup folder)."""
     import winreg
     out = []
     for hive, sub, onde in RUN_KEYS:
@@ -126,7 +126,7 @@ def startup_entries():
             ak = winreg.OpenKey(root, r"Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run")
             for i in range(winreg.QueryInfoKey(ak)[1]):
                 n, d, _ = winreg.EnumValue(ak, i)
-                appr[n] = not (d and d[0] & 1)       # 02/06 = ativo, 03/07 = desativado pelo usuário
+                appr[n] = not (d and d[0] & 1)       # 02/06 = enabled, 03/07 = disabled by the user
         except OSError:
             pass
         try:
@@ -153,7 +153,7 @@ def norm(s):
 
 
 def startup_of(item, entries):
-    """Entrada de inicialização que corresponde ao item, ou None."""
+    """Startup entry matching the item, or None."""
     tgt = os.path.normpath(item.get("target") or "").lower() if item.get("target") else ""
     loc = (item.get("location") or "").lower().rstrip("\\")
     n = norm(item["name"])
@@ -172,9 +172,9 @@ def startup_of(item, entries):
     return None
 
 
-# ---------- atualizações (winget) ----------
+# ---------- updates (winget) ----------
 def winget_upgrades(timeout=180):
-    """Roda `winget upgrade` (só lista) e devolve [{'nome','id','atual','nova'}]. Lança OSError se não houver winget."""
+    """Run `winget upgrade` (list only) and return [{'nome','id','atual','nova'}]. Raises OSError if winget is missing."""
     r = subprocess.run(["winget", "upgrade", "--accept-source-agreements", "--disable-interactivity"],
                        capture_output=True, stdin=subprocess.DEVNULL, timeout=timeout, creationflags=NOWIN)
     return parse_winget(r.stdout.decode("utf-8", errors="replace"))
@@ -201,7 +201,7 @@ def parse_winget(text):
 
 
 def match_updates(items, ups):
-    """{nome_do_item: {'id','atual','nova'}} casando o nome do winget com o item ou com o nome no registro."""
+    """{item_name: {'id','atual','nova'}} matching the winget name against the item or the registry name."""
     out = {}
     for it in items:
         if it.get("broken") or it.get("launcher") or it.get("manual"):
@@ -209,7 +209,7 @@ def match_updates(items, ups):
         keys = {norm(it["name"]), norm(it.get("uninstall_nome") or "")} - {""}
         for u in ups:
             un = norm(u["nome"])
-            if u.get("origem", "").lower() == "msstore":      # apps da Loja não estão neste índice
+            if u.get("origem", "").lower() == "msstore":      # Store apps are not in this index
                 continue
             if un and any(k == un or (min(len(k), len(un)) >= 8 and min(len(k), len(un)) / max(len(k), len(un)) >= 0.55
                                                          and (k.startswith(un) or un.startswith(k))) for k in keys):
@@ -218,7 +218,7 @@ def match_updates(items, ups):
     return out
 
 
-# ---------- versões duplicadas ----------
+# ---------- duplicate versions ----------
 def dup_base(name):
     s = name.lower()
     s = re.sub(r"\((?:x64|x86|64-bit|32-bit)[^)]*\)|\b(x64|x86|64-bit|32-bit)\b", " ", s)
@@ -228,7 +228,7 @@ def dup_base(name):
 
 
 def dup_groups(items):
-    """{base: [itens]} só para grupos com 2+ nomes diferentes dentro da mesma categoria."""
+    """{base: [items]} only for groups with 2+ different names within the same category."""
     g = {}
     for i in items:
         if i.get("broken") or i.get("launcher") or i.get("manual"):
@@ -239,7 +239,7 @@ def dup_groups(items):
     return {f"{b}": v for (c, b), v in g.items() if len({norm(x["name"]) for x in v}) >= 2}
 
 
-# ---------- datas ----------
+# ---------- dates ----------
 def rel_days(dt, now=None):
     now = now or datetime.datetime.now()
     d = (now.date() - dt.date()).days

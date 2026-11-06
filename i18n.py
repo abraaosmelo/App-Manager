@@ -1,7 +1,7 @@
-"""Idiomas da interface (padrão: English). Os textos-fonte do código estão em português; os arquivos lang/en.json e lang/es.json
-traduzem: "ui" (botões, menus, mensagens), "cat" (categorias e subcategorias), "desc" (descrições "para que serve")
-e "patterns" (descrições geradas pelo scan, com trechos variáveis). Traduções privadas opcionais ficam em
-lang.local.<idioma>.json (ao lado dos dados; ignorado pelo git). O idioma vale ao iniciar (a troca reinicia o app)."""
+"""Interface languages (default: English). The source texts in the code are in Portuguese; the files lang/en.json and lang/es.json
+translate them: "ui" (buttons, menus, messages), "cat" (categories and subcategories), "desc" ("what it does" descriptions)
+and "patterns" (scan-generated descriptions, with variable parts). Optional private translations live in
+lang.local.<language>.json (next to the data; ignored by git). The language applies at startup (changing it restarts the app)."""
 import json, re
 from paths import APP, RES
 
@@ -31,18 +31,18 @@ if LANG != "pt":
 
 
 def tr(s, **kw):
-    """Traduz um texto da interface (a chave é o texto em português); {campos} são preenchidos com kw."""
+    """Translate a UI text (the key is the Portuguese text); {fields} are filled in with kw."""
     t = _T["ui"].get(s, s)
     return t.format(**kw) if kw else t
 
 
 def trc(s):
-    """Nome de categoria/subcategoria para exibição (nomes criados pelo usuário ficam como estão)."""
+    """Category/subcategory name for display (user-created names stay as they are)."""
     return _T["cat"].get(s, s)
 
 
 def trd(s):
-    """Descrição 'para que serve' para exibição (exata, ou por padrão para as geradas pelo scan)."""
+    """'What it does' description for display (exact match, or by pattern for scan-generated ones)."""
     if not s or LANG == "pt":
         return s
     if s in _T["desc"]:
