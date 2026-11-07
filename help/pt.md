@@ -40,7 +40,7 @@ O app só lê informações. Ele só altera algo quando você manda: desinstalar
 - **Painel esquerdo:** categorias com a contagem de programas. Clique na seta para abrir as **subcategorias** (por exemplo, Desenvolvimento › Editores e IDEs).
 - **Painel direito:** lista com ícone, nome, versão, tamanho, disco, categoria › subcategoria e local. Clique no título de uma coluna para ordenar.
 - **Rodapé:** detalhes do item selecionado (categoria, disco, versão, fabricante, quantas vezes foi aberto por aqui, tamanho, local, se há desinstalador e para que serve).
-- **Barra de status** (canto superior direito): total exibido, "calculando tamanhos…", novos e removidos.
+- **Barra de status** (canto superior direito): total exibido, "calculando tamanhos…", quanto tempo faz o último scan ("escaneado há 5 min"; se estiver velho, use Reescanear), novos e removidos.
 
 ## Colunas: último uso, vezes usado, instalado em
 

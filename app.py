@@ -12,7 +12,7 @@ from version import APP_NAME, VERSION, REPO_URL
 UPD = BASE / "updates.json"                   # cache of the last winget check
 BACKUPS = BASE / "backup"                     # configuration backups
 COLS = {"versao": (tr("Versão"), 90), "upd": (tr("Atualização"), 105), "tamanho": (tr("Tamanho"), 75), "disco": (tr("Disco"), 45),
-        "ultimo": (tr("Último uso"), 150), "vezes": (tr("Vezes usado"), 90), "instalado": (tr("Instalado em"), 95),
+        "ultimo": (tr("Último uso"), 190), "vezes": (tr("Vezes usado"), 90), "instalado": (tr("Instalado em"), 95),
         "inicia": (tr("Inicia com Windows"), 140), "tags": (tr("Tags"), 100), "cat": (tr("Categoria › Subcategoria"), 200),
         "local": (tr("Local"), 300)}
 DEFAULT_COLS = ["versao", "upd", "tamanho", "disco", "ultimo", "vezes", "instalado", "inicia", "cat", "local"]
@@ -111,7 +111,7 @@ class App(tk.Tk):
             self.iconphoto(True, self.logo)
         except tk.TclError:
             self.logo = None
-        self.geometry("1280x700")
+        self.geometry("1320x700")
         self.data = {"items": []}
         self.usr = read_json(USR, {})
         for k, v in (("favoritos", []), ("usos", {}), ("descricoes", {}), ("historico", []), ("manuais", []), ("ocultos", []),
@@ -511,8 +511,8 @@ class App(tk.Tk):
             self.cur_cat = "__all__"
         self.cats.selection_set(self.cur_cat)
         self.fill_table()
-        extra = []
-        if self.data.get("sizing"): extra.append(tr("calculando tamanhos…"))
+        head, extra = [tr("{n} programas", n=len(data))], []
+        if self.data.get("sizing"): head.append(tr("calculando tamanhos…"))
         nv = sum(1 for i in self.items if i.get("novo"))
         if nv: extra.append(tr("{n} novo(s)", n=nv))
         if self.data.get("removidos"): extra.append(tr("{n} removido(s)", n=len(self.data["removidos"])))
@@ -520,7 +520,29 @@ class App(tk.Tk):
             extra.append(tr("liberaria até {size} (sem uso há {dias}+ dias ou sem registro)", size=fmt(self.uniq_size(self.members("__old__", data))), dias=self.limpeza_dias))
         if self.upd_info.get("quando") and self.upd:
             extra.append(tr("{n} com atualização", n=len(self.upd)))
-        self.status.config(text=" • ".join([tr("{n} programas", n=len(data))] + extra))
+        self.status_parts = (head, extra)
+        self.show_status()
+
+    def show_status(self):
+        """Status bar text; the "scanned … ago" part is recomputed every minute."""
+        head, extra = self.status_parts
+        age = self.scan_age()
+        mid = [tr("escaneado {quando}", quando=age)] if age else []
+        self.status.config(text=" • ".join(head + mid + extra))
+        if getattr(self, "status_job", None): self.after_cancel(self.status_job)
+        self.status_job = self.after(60000, self.show_status)
+
+    def scan_age(self):
+        """How long ago index.json was generated ("5 min ago", "yesterday"…), or "" if unknown."""
+        try:
+            dt = datetime.datetime.strptime(self.data.get("gerado", ""), "%Y-%m-%d %H:%M")
+        except ValueError:
+            return ""
+        mins = int((datetime.datetime.now() - dt).total_seconds() // 60)
+        if mins < 1: return tr("agora há pouco")
+        if mins < 60: return tr("há {n} min", n=mins)
+        if mins < 24 * 60 and dt.date() == datetime.date.today(): return tr("há {n} h", n=mins // 60)
+        return usage.rel_days(dt)
 
     def on_cat(self, e):
         s = self.cats.selection()

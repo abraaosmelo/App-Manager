@@ -40,7 +40,7 @@ La aplicación solo lee información. Cambia algo únicamente cuando usted lo pi
 - **Panel izquierdo:** categorías con el número de programas. Haga clic en la flecha para abrir las **subcategorías** (por ejemplo, Desarrollo › Editores e IDE).
 - **Panel derecho:** lista con icono, nombre, versión, tamaño, disco, categoría › subcategoría y ubicación. Haga clic en el título de una columna para ordenar.
 - **Pie:** detalles del elemento seleccionado (categoría, disco, versión, fabricante, cuántas veces se abrió desde aquí, tamaño, ubicación, si hay desinstalador y para qué sirve).
-- **Barra de estado** (arriba a la derecha): total mostrado, «calculando tamaños…», nuevos y eliminados.
+- **Barra de estado** (arriba a la derecha): total mostrado, «calculando tamaños…», hace cuánto se hizo el último escaneo («escaneado hace 5 min»; si es antiguo, use Reescanear), nuevos y eliminados.
 
 ## Columnas: último uso, veces usado, instalado el
 

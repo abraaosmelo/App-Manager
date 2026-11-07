@@ -40,7 +40,7 @@ The app only reads information. It changes something only when you ask: uninstal
 - **Left pane:** categories with the number of programs. Click the arrow to open the **subcategories** (for example, Development › Editors and IDEs).
 - **Right pane:** list with icon, name, version, size, disk, category › subcategory and location. Click a column title to sort.
 - **Footer:** details of the selected item (category, disk, version, publisher, how many times it was opened from here, size, location, whether there is an uninstaller and what it does).
-- **Status bar** (top right): total shown, "calculating sizes…", new and removed.
+- **Status bar** (top right): total shown, "calculating sizes…", how long ago the last scan ran ("scanned 5 min ago"; if it is old, use Rescan), new and removed.
 
 ## Columns: last used, times used, installed on
 
