@@ -1,5 +1,5 @@
 @echo off
-rem Gera dist\App-Manager.exe (precisa de Python; instala o PyInstaller se faltar).
+rem Builds dist\App-Manager.exe (needs Python; installs PyInstaller if missing).
 cd /d "%~dp0"
 python -m pip install --quiet pyinstaller || (echo Falha ao instalar o PyInstaller. & pause & exit /b 1)
 python -m PyInstaller --noconfirm --clean --onefile --noconsole --name App-Manager --icon assets\icon.ico ^
