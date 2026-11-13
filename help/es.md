@@ -165,16 +165,16 @@ Los botones superiores ahora son menús (el menú del clic derecho y los botones
 - **Archivo:** **Reescanear** (`F5`; rehace el escaneo en cerca de 1 min, la lista aparece enseguida y los tamaños se van rellenando), **Exportar…** (`Ctrl+E`; guarda la lista mostrada, con búsqueda y filtros, como CSV para Excel o como página HTML con búsqueda), **Guardar copia de la configuración…**, **Restaurar copia…** y **Salir** (`Ctrl+Q`).
 - **Ver:** **Cambiar tema claro/oscuro** (al iniciar, sigue el tema de Windows), **Columnas** (mostrar u ocultar) y **Limpiar filtros**.
 - **Herramientas:** **Buscar actualizaciones**, **Resumen de los programas…**, **Añadir programa…**, **Deshacer** (`Ctrl+Z`) e **Historial de acciones…**.
-- **🌐 Idioma:** elige Português, English o Español (vea «Idioma»).
+- **🌐 Idioma:** elige Português, English, Español o Français (vea «Idioma»).
 - **Ayuda:** **Ayuda** (`F1`: esta ventana; **Ir al índice** vuelve al inicio y **Abrir archivo de ayuda** abre el archivo), **Abrir página del proyecto** (GitHub) y **Acerca de App-Manager…** (versión y licencia).
 
 ## Idioma
 
-El menú **🌐 Idioma** (arriba) elige el idioma de la interfaz, de los nombres de categorías, de las descripciones «para qué sirve» del catálogo y de esta Ayuda: **Português, English y Español**. Al elegir, la aplicación se reabre sola.
+El menú **🌐 Idioma** (arriba) elige el idioma de la interfaz, de los nombres de categorías, de las descripciones «para qué sirve» del catálogo y de esta Ayuda: **Português, English, Español y Français**. Al elegir, la aplicación se reabre sola.
 
 - El inglés es el idioma predeterminado. La elección se guarda en `user.json`.
 - No se traducen: nombres de programas, descripciones que usted escribió (Editar descripción…) y textos que vienen del propio programa (fabricante, descripción del archivo).
-- Los textos traducidos están en `lang/en.json` y `lang/es.json`; esta Ayuda existe como `help/pt.md`, `help/en.md` y `help/es.md`.
+- Los textos traducidos están en `lang/en.json`, `lang/es.json` y `lang/fr.json`; esta Ayuda existe como `help/pt.md`, `help/en.md`, `help/es.md` y `help/fr.md`.
 
 ## Atajos de teclado
 
@@ -198,12 +198,12 @@ Windows (SmartScreen) o el antivirus pueden avisar, porque el `.exe` es nuevo y 
 
 - `index.json`: el índice generado por el escaneo.
 - `categories.json`: el **catálogo** predeterminado (palabras del nombre → categoría, subcategoría y descripción) y las reglas de reserva; viene con la aplicación.
-- `categories.local.json` (opcional, privado): **su** catálogo, las categorías que usted movió, carpetas extra para programas `.bat` y `limpeza_dias`. Mismo formato que `categories.json`; sus entradas ganan. `lang.local.en.json` / `lang.local.es.json` (opcionales) guardan sus traducciones.
+- `categories.local.json` (opcional, privado): **su** catálogo, las categorías que usted movió, carpetas extra para programas `.bat` y `limpeza_dias`. Mismo formato que `categories.json`; sus entradas ganan. `lang.local.<idioma>.json` (opcionales, p. ej. `lang.local.fr.json`) guardan sus traducciones.
 - `user.json`: sus favoritos, recuento y fecha de aperturas, descripciones, notas, etiquetas, elementos ocultos, elementos añadidos, columnas elegidas, idioma y el historial de acciones.
 - `updates.json`: resultado de la última comprobación de winget. `usage.py`: lectura del uso, del inicio y de winget.
 - `backup/atalhos/`: copias de los accesos directos enviados a la Papelera (usadas por Deshacer).
 - `icons/`: iconos extraídos de los programas.
-- `scan.py` (escaneo), `app.py` (la ventana), `usage.py`, `i18n.py`, `paths.py` y `version.py` (apoyo), `lang/` (traducciones), `help/` (esta Ayuda, en 3 idiomas), `assets/` (logo e icono) y `App-Manager.bat` (para abrir).
+- `scan.py` (escaneo), `app.py` (la ventana), `usage.py`, `i18n.py`, `paths.py` y `version.py` (apoyo), `lang/` (traducciones), `help/` (esta Ayuda, en 4 idiomas), `assets/` (logo e icono) y `App-Manager.bat` (para abrir).
 
 ## Consejos y límites
 
