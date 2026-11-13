@@ -165,16 +165,16 @@ Os botões do topo viraram menus (o menu do botão direito e os botões do rodap
 - **Arquivo:** **Reescanear** (`F5`; refaz a varredura em cerca de 1 min, a lista aparece logo e os tamanhos vão sendo preenchidos), **Exportar…** (`Ctrl+E`; salva a lista exibida, com busca e filtros, como CSV para o Excel ou como página HTML com busca), **Salvar backup da configuração…**, **Restaurar backup…** e **Sair** (`Ctrl+Q`).
 - **Exibir:** **Alternar tema claro/escuro** (ao iniciar, segue o tema do Windows), **Colunas** (mostrar ou esconder) e **Limpar filtros**.
 - **Ferramentas:** **Verificar atualizações**, **Resumo dos programas…**, **Adicionar programa…**, **Desfazer** (`Ctrl+Z`) e **Histórico de ações…**.
-- **🌐 Idioma:** escolhe Português, English ou Español (veja "Idioma").
+- **🌐 Idioma:** escolhe Português, English, Español ou Français (veja "Idioma").
 - **Ajuda:** **Ajuda** (`F1`: esta janela; **Ir ao índice** volta ao topo e **Abrir arquivo de ajuda** abre o arquivo), **Abrir página do projeto** (GitHub) e **Sobre o App-Manager…** (versão e licença).
 
 ## Idioma
 
-O menu **🌐 Idioma** (no topo) escolhe o idioma da interface, dos nomes das categorias, das descrições "para que serve" do catálogo e desta Ajuda: **Português, English e Español**. Ao escolher, o app reabre sozinho.
+O menu **🌐 Idioma** (no topo) escolhe o idioma da interface, dos nomes das categorias, das descrições "para que serve" do catálogo e desta Ajuda: **Português, English, Español e Français**. Ao escolher, o app reabre sozinho.
 
 - O padrão é o inglês. A escolha fica em `user.json`.
 - Não são traduzidos: nomes de programas, descrições que você escreveu (Editar descrição…) e textos que vêm do próprio programa (fabricante, descrição do arquivo).
-- Os textos traduzidos ficam em `lang/en.json` e `lang/es.json`; esta Ajuda existe como `help/pt.md`, `help/en.md` e `help/es.md`.
+- Os textos traduzidos ficam em `lang/en.json`, `lang/es.json` e `lang/fr.json`; esta Ajuda existe como `help/pt.md`, `help/en.md`, `help/es.md` e `help/fr.md`.
 
 ## Atalhos de teclado
 
@@ -198,12 +198,12 @@ O Windows (SmartScreen) ou o antivírus pode alertar, porque o `.exe` é novo e 
 
 - `index.json`: o índice gerado pelo scan.
 - `categories.json`: o **catálogo** padrão (palavras do nome → categoria, subcategoria e descrição) e as regras de reserva; vem com o app.
-- `categories.local.json` (opcional, privado): **o seu** catálogo, as categorias que você moveu, pastas extras para programas `.bat` e `limpeza_dias`. Mesmo formato do `categories.json`; as suas entradas vencem. `lang.local.en.json` / `lang.local.es.json` (opcionais) guardam as suas traduções.
+- `categories.local.json` (opcional, privado): **o seu** catálogo, as categorias que você moveu, pastas extras para programas `.bat` e `limpeza_dias`. Mesmo formato do `categories.json`; as suas entradas vencem. `lang.local.<idioma>.json` (opcionais, ex.: `lang.local.fr.json`) guardam as suas traduções.
 - `user.json`: seus favoritos, contagem e data de aberturas, descrições, notas, tags, itens ocultos, itens adicionados, colunas escolhidas e o histórico de ações.
 - `updates.json`: resultado da última verificação do winget. `usage.py`: leitura do uso, da inicialização e do winget.
 - `backup/atalhos/`: cópias dos atalhos enviados à Lixeira (usadas pelo Desfazer).
 - `icons/`: ícones extraídos dos programas.
-- `scan.py` (varredura), `app.py` (a janela), `usage.py`, `i18n.py`, `paths.py` e `version.py` (apoio), `lang/` (traduções), `help/` (esta Ajuda, nos 3 idiomas), `assets/` (logo e ícone) e `App-Manager.bat` (para abrir).
+- `scan.py` (varredura), `app.py` (a janela), `usage.py`, `i18n.py`, `paths.py` e `version.py` (apoio), `lang/` (traduções), `help/` (esta Ajuda, nos 4 idiomas), `assets/` (logo e ícone) e `App-Manager.bat` (para abrir).
 
 ## Dicas e limites
 
