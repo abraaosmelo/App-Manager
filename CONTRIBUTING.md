@@ -27,6 +27,8 @@ Unit tests (standard `unittest`, no extra dependencies):
 python -m unittest discover -s tests
 ```
 
+`tests/test_translations.py` also checks that every `tr()` text is translated in every language (with the same `{fields}`), that catalog descriptions are translated and that each Help index link reaches a section. Run it before opening a PR that changes texts or the Help.
+
 ## Rules of the project
 
 1. **Texts go through `tr("texto em português")`** (`i18n.py`). The Portuguese text is the key; add the English, Spanish, French and German translations in `lang/en.json`, `lang/es.json`, `lang/fr.json` and `lang/de.json`.
