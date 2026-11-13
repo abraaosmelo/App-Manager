@@ -29,7 +29,7 @@ python -m unittest discover -s tests
 
 ## Rules of the project
 
-1. **Texts go through `tr("texto em português")`** (`i18n.py`). The Portuguese text is the key; add the English, Spanish and French translations in `lang/en.json`, `lang/es.json` and `lang/fr.json`.
+1. **Texts go through `tr("texto em português")`** (`i18n.py`). The Portuguese text is the key; add the English, Spanish, French and German translations in `lang/en.json`, `lang/es.json`, `lang/fr.json` and `lang/de.json`.
 2. **Code comments and docstrings are in English.**
 3. **Update the Help** (`help/pt.md`, `help/en.md`, `help/es.md`, `help/fr.md`) when you change menus, buttons, shortcuts or behavior, including the index at the top.
 4. **Never commit personal data**: `index.json`, `user.json`, `updates.json`, `icons/`, `backup/`, `categories.local.json`, `lang.local.*.json` are git-ignored. Screenshots must use made-up data.

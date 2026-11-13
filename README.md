@@ -4,7 +4,7 @@
 
 **English** · [Português](README.pt.md) · [Español](README.es.md)
 
-A catalog of the programs installed on **Windows**: what each one does, when you last used it, how much space it takes, its category, and buttons to open, update or uninstall it. Plain Python + Tkinter, no external dependencies, everything runs locally. The interface is in **English by default**, with **Português**, **Español** and **Français** one click away (menu 🌐 *Language*).
+A catalog of the programs installed on **Windows**: what each one does, when you last used it, how much space it takes, its category, and buttons to open, update or uninstall it. Plain Python + Tkinter, no external dependencies, everything runs locally. The interface is in **English by default**, with **Português**, **Español**, **Français** and **Deutsch** one click away (menu 🌐 *Language*).
 
 ## Screenshots
 
@@ -55,7 +55,7 @@ To build the `.exe` yourself: `build_exe.bat`. **F1** opens the in-app Help.
 
 ## Customize
 
-Add your own programs and descriptions in `categories.local.json` (optional, same format as `categories.json`; your entries win), then rescan. Translations live in `lang/`. Full help: [English](help/en.md), [Português](help/pt.md), [Español](help/es.md), [Français](help/fr.md).
+Add your own programs and descriptions in `categories.local.json` (optional, same format as `categories.json`; your entries win), then rescan. Translations live in `lang/`. Full help: [English](help/en.md), [Português](help/pt.md), [Español](help/es.md), [Français](help/fr.md), [Deutsch](help/de.md).
 
 ## Files
 

@@ -1,11 +1,11 @@
-"""Interface languages (default: English). The source texts in the code are in Portuguese; the files lang/en.json, lang/es.json
-and lang/fr.json translate them: "ui" (buttons, menus, messages), "cat" (categories and subcategories), "desc" ("what it does" descriptions)
+"""Interface languages (default: English). The source texts in the code are in Portuguese; the files lang/en.json, lang/es.json,
+lang/fr.json and lang/de.json translate them: "ui" (buttons, menus, messages), "cat" (categories and subcategories), "desc" ("what it does" descriptions)
 and "patterns" (scan-generated descriptions, with variable parts). Optional private translations live in
 lang.local.<language>.json (next to the data; ignored by git). The language applies at startup (changing it restarts the app)."""
 import json, re
 from paths import APP, RES
 
-LANGS = {"en": "English", "pt": "Português", "es": "Español", "fr": "Français"}
+LANGS = {"en": "English", "pt": "Português", "es": "Español", "fr": "Français", "de": "Deutsch"}
 DEFAULT = "en"
 
 
