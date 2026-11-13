@@ -46,7 +46,7 @@ La aplicación solo lee información. Cambia algo únicamente cuando usted lo pi
 
 La tabla tiene estas columnas (haga **clic derecho en el título** de cualquier columna para mostrarla u ocultarla; existe «Restaurar columnas predeterminadas»; la tabla tiene desplazamiento horizontal si no cabe): Nombre, Versión, Actualización, Tamaño, Disco, **Último uso**, **Veces usado**, **Instalado el**, Inicia con Windows, Etiquetas, Categoría › Subcategoría y Ubicación. Haga clic en el título para ordenar.
 
-- **Último uso y Veces usado:** vienen del registro de Windows (UserAssist), que anota cuándo abre un programa desde el Explorador, el menú Inicio, la barra de tareas o el escritorio. Se suman a las aperturas hechas desde este índice (vale el número mayor, para no contar dos veces). Los datos se leen de nuevo cada vez que vuelve a la ventana.
+- **Último uso y Veces usado:** vienen del registro de Windows (UserAssist), que anota cuándo abre un programa desde el Explorador, el menú Inicio, la barra de tareas o el escritorio. Se suman a las aperturas hechas desde este índice (vale el número mayor, para no contar dos veces). Los datos se leen de nuevo cada vez que vuelve a la ventana. La columna Último uso se ensancha sola para que quepa el texto más largo.
 - **«sin registro»** significa que Windows no anotó ninguna apertura. Esto **no demuestra** que el programa nunca se haya usado: Windows no registra programas abiertos por línea de comandos, por scripts `.bat`, por servicios o desde el Administrador de tareas, y el historial solo existe desde que se activó la función.
 - **Instalado el:** fecha de instalación del registro de Windows cuando existe; si no, la fecha de creación de la carpeta del programa (puede ser la fecha en que se copió la carpeta).
 

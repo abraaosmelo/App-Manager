@@ -46,7 +46,7 @@ The app only reads information. It changes something only when you ask: uninstal
 
 The table has these columns (**right-click a column title** to show or hide it; there is "Restore default columns"; the table scrolls horizontally if it does not fit): Name, Version, Update, Size, Disk, **Last used**, **Times used**, **Installed on**, Starts with Windows, Tags, Category › Subcategory and Location. Click a title to sort.
 
-- **Last used and Times used:** come from the Windows registry (UserAssist), which records when you open a program from Explorer, the Start Menu, the taskbar or the desktop. They are added to the launches made through this index (the larger number wins, so nothing is counted twice). The data is read again every time you return to the window.
+- **Last used and Times used:** come from the Windows registry (UserAssist), which records when you open a program from Explorer, the Start Menu, the taskbar or the desktop. They are added to the launches made through this index (the larger number wins, so nothing is counted twice). The data is read again every time you return to the window. The Last used column widens by itself to fit the longest text.
 - **"no record"** means Windows did not note any launch. This **does not prove** the program was never used: Windows does not record programs opened from the command line, from `.bat` scripts, from services or from Task Manager, and the history only exists since the feature was turned on.
 - **Installed on:** the install date from the Windows registry when it exists; otherwise the creation date of the program folder (which may be the date the folder was copied).
 
