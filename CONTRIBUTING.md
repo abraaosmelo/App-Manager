@@ -21,6 +21,12 @@ App-Manager.bat        (or: python scan.py, then pythonw app.py)
 
 Windows 10/11 and Python 3 with Tkinter. No extra dependencies.
 
+Unit tests (standard `unittest`, no extra dependencies):
+
+```
+python -m unittest discover -s tests
+```
+
 ## Rules of the project
 
 1. **Texts go through `tr("texto em português")`** (`i18n.py`). The Portuguese text is the key; add the English and Spanish translations in `lang/en.json` and `lang/es.json`.
