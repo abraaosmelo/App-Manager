@@ -180,18 +180,40 @@ def winget_upgrades(timeout=180):
     return parse_winget(r.stdout.decode("utf-8", errors="replace"))
 
 
+def header_starts(head, rows):
+    """Column start positions of a winget table.
+
+    Titles split by 2+ spaces are always columns (a localized title may contain a single space).
+    A word after a single space is also a column when some row has a value starting exactly there
+    and no row has text running into it (e.g. "Version Available" when the column is just wide enough).
+    """
+    starts = {m.start() for m in re.finditer(r"\S+(?: \S+)*", head)}
+    for m in re.finditer(r"\S+", head):
+        w = m.start()
+        if w in starts:
+            continue
+        begins = any(len(r) > w and r[w] != " " for r in rows)
+        clear = all(len(r) <= w or r[w - 1] == " " for r in rows)
+        if begins and clear:
+            starts.add(w)
+    return sorted(starts)
+
+
 def parse_winget(text):
     lines = text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
     for n in range(1, len(lines)):
         if re.fullmatch(r"-{8,}\s*", lines[n].strip() or "x"):
             head = lines[n - 1]
-            starts = [m.start() for m in re.finditer(r"\S+(?: \S+)*", head)]
-            if len(starts) < 4:
-                continue
-            res = []
+            rows = []
             for ln in lines[n + 1:]:
                 if not ln.strip():
                     break
+                rows.append(ln)
+            starts = header_starts(head, rows)
+            if len(starts) < 4:
+                continue
+            res = []
+            for ln in rows:
                 cols = [ln[a:b].strip() for a, b in zip(starts, starts[1:] + [len(ln) + 1])]
                 if len(cols) >= 4 and cols[1] and cols[3] and " " not in cols[1]:
                     res.append({"nome": cols[0], "id": cols[1], "atual": cols[2], "nova": cols[3],
