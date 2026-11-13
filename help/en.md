@@ -165,16 +165,16 @@ The top buttons are now menus (the right-click menu and the footer buttons are u
 - **File:** **Rescan** (`F5`; redoes the scan in about 1 min, the list appears right away and sizes are filled in as they are calculated), **Export…** (`Ctrl+E`; saves the displayed list, with search and filters, as CSV for Excel or as an HTML page with search), **Save configuration backup…**, **Restore backup…** and **Exit** (`Ctrl+Q`).
 - **View:** **Switch light/dark theme** (at startup it follows the Windows theme), **Columns** (show or hide) and **Clear filters**.
 - **Tools:** **Check updates**, **Programs summary…**, **Add program…**, **Undo** (`Ctrl+Z`) and **Action history…**.
-- **🌐 Language:** chooses Português, English, Español or Français (see "Language").
+- **🌐 Language:** chooses Português, English, Español, Français or Deutsch (see "Language").
 - **Help:** **Help** (`F1`: this window; **Go to index** returns to the top and **Open help file** opens the file), **Open project page** (GitHub) and **About App-Manager…** (version and license).
 
 ## Language
 
-The **🌐 Language** menu (at the top) chooses the language of the interface, category names, the catalog's "what it does" descriptions and this Help: **Português, English, Español and Français**. When you choose, the app reopens by itself.
+The **🌐 Language** menu (at the top) chooses the language of the interface, category names, the catalog's "what it does" descriptions and this Help: **Português, English, Español, Français and Deutsch**. When you choose, the app reopens by itself.
 
 - English is the default. The choice is kept in `user.json`.
 - Not translated: program names, descriptions you wrote (Edit description…) and texts that come from the program itself (publisher, file description).
-- The translated texts are in `lang/en.json`, `lang/es.json` and `lang/fr.json`; this Help exists as `help/pt.md`, `help/en.md`, `help/es.md` and `help/fr.md`.
+- The translated texts are in `lang/en.json`, `lang/es.json`, `lang/fr.json` and `lang/de.json`; this Help exists as `help/pt.md`, `help/en.md`, `help/es.md`, `help/fr.md` and `help/de.md`.
 
 ## Keyboard shortcuts
 
@@ -203,7 +203,7 @@ Windows (SmartScreen) or your antivirus may warn, because the `.exe` is new and 
 - `updates.json`: result of the last winget check. `usage.py`: reading of usage, startup and winget.
 - `backup/atalhos/`: copies of the shortcuts sent to the Recycle Bin (used by Undo).
 - `icons/`: icons extracted from the programs.
-- `scan.py` (scan), `app.py` (the window), `usage.py`, `i18n.py`, `paths.py` and `version.py` (support), `lang/` (translations), `help/` (this Help, in 4 languages), `assets/` (logo and icon) and `App-Manager.bat` (to open it).
+- `scan.py` (scan), `app.py` (the window), `usage.py`, `i18n.py`, `paths.py` and `version.py` (support), `lang/` (translations), `help/` (this Help, in 5 languages), `assets/` (logo and icon) and `App-Manager.bat` (to open it).
 
 ## Tips and limits
 

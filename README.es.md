@@ -4,7 +4,7 @@
 
 [English](README.md) · [Português](README.pt.md) · **Español**
 
-Catálogo de los programas instalados en **Windows**: qué hace cada uno, cuándo se usó, cuánto ocupa, categorías, y botones para abrir, actualizar o desinstalar. Python + Tkinter, sin dependencias externas, todo local. La interfaz viene en **inglés por defecto**, con **Português**, **Español** y **Français** a un clic (menú 🌐 *Idioma*).
+Catálogo de los programas instalados en **Windows**: qué hace cada uno, cuándo se usó, cuánto ocupa, categorías, y botones para abrir, actualizar o desinstalar. Python + Tkinter, sin dependencias externas, todo local. La interfaz viene en **inglés por defecto**, con **Português**, **Español**, **Français** y **Deutsch** a un clic (menú 🌐 *Idioma*).
 
 ## Capturas de pantalla
 
@@ -55,7 +55,7 @@ Para generar el `.exe` usted mismo: `build_exe.bat`. **F1** abre la Ayuda dentro
 
 ## Personalizar
 
-Añada sus programas y descripciones en `categories.local.json` (opcional, mismo formato que `categories.json`; sus entradas ganan) y reescanee. Traducciones en `lang/`. Ayuda completa: [English](help/en.md), [Português](help/pt.md), [Español](help/es.md), [Français](help/fr.md).
+Añada sus programas y descripciones en `categories.local.json` (opcional, mismo formato que `categories.json`; sus entradas ganan) y reescanee. Traducciones en `lang/`. Ayuda completa: [English](help/en.md), [Português](help/pt.md), [Español](help/es.md), [Français](help/fr.md), [Deutsch](help/de.md).
 
 ## Contribuir
 

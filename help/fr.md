@@ -165,16 +165,16 @@ Les boutons du haut sont désormais des menus (le menu du clic droit et les bout
 - **Fichier :** **Analyser à nouveau** (`F5` ; refait l'analyse en environ 1 min, la liste apparaît tout de suite et les tailles se remplissent au fur et à mesure), **Exporter…** (`Ctrl+E` ; enregistre la liste affichée, avec recherche et filtres, en CSV pour Excel ou en page HTML avec recherche), **Enregistrer une sauvegarde de la configuration…**, **Restaurer une sauvegarde…** et **Quitter** (`Ctrl+Q`).
 - **Affichage :** **Basculer thème clair/sombre** (au démarrage, il suit le thème de Windows), **Colonnes** (afficher ou masquer) et **Effacer les filtres**.
 - **Outils :** **Rechercher des mises à jour**, **Résumé des programmes…**, **Ajouter un programme…**, **Annuler** (`Ctrl+Z`) et **Historique des actions…**.
-- **🌐 Langue :** choisit Português, English, Español ou Français (voir « Langue »).
+- **🌐 Langue :** choisit Português, English, Español, Français ou Deutsch (voir « Langue »).
 - **Aide :** **Aide** (`F1` : cette fenêtre ; **Aller à l'index** revient en haut et **Ouvrir le fichier d'aide** ouvre le fichier), **Ouvrir la page du projet** (GitHub) et **À propos de App-Manager…** (version et licence).
 
 ## Langue
 
-Le menu **🌐 Langue** (en haut) choisit la langue de l'interface, des noms de catégories, des descriptions « à quoi ça sert » du catalogue et de cette Aide : **Português, English, Español et Français**. Quand vous choisissez, l'application se rouvre d'elle-même.
+Le menu **🌐 Langue** (en haut) choisit la langue de l'interface, des noms de catégories, des descriptions « à quoi ça sert » du catalogue et de cette Aide : **Português, English, Español, Français et Deutsch**. Quand vous choisissez, l'application se rouvre d'elle-même.
 
 - L'anglais est la langue par défaut. Le choix est gardé dans `user.json`.
 - Ne sont pas traduits : les noms des programmes, les descriptions que vous avez écrites (Modifier la description…) et les textes qui viennent du programme lui-même (éditeur, description du fichier).
-- Les textes traduits sont dans `lang/en.json`, `lang/es.json` et `lang/fr.json` ; cette Aide existe en `help/pt.md`, `help/en.md`, `help/es.md` et `help/fr.md`.
+- Les textes traduits sont dans `lang/en.json`, `lang/es.json`, `lang/fr.json` et `lang/de.json` ; cette Aide existe en `help/pt.md`, `help/en.md`, `help/es.md`, `help/fr.md` et `help/de.md`.
 
 ## Raccourcis clavier
 
@@ -203,7 +203,7 @@ Windows (SmartScreen) ou votre antivirus peut afficher un avertissement, car le 
 - `updates.json` : résultat de la dernière recherche winget. `usage.py` : lecture de l'utilisation, du démarrage et de winget.
 - `backup/atalhos/` : copies des raccourcis envoyés à la Corbeille (utilisées par Annuler).
 - `icons/` : icônes extraites des programmes.
-- `scan.py` (analyse), `app.py` (la fenêtre), `usage.py`, `i18n.py`, `paths.py` et `version.py` (support), `lang/` (traductions), `help/` (cette Aide, en 4 langues), `assets/` (logo et icône) et `App-Manager.bat` (pour l'ouvrir).
+- `scan.py` (analyse), `app.py` (la fenêtre), `usage.py`, `i18n.py`, `paths.py` et `version.py` (support), `lang/` (traductions), `help/` (cette Aide, en 5 langues), `assets/` (logo et icône) et `App-Manager.bat` (pour l'ouvrir).
 
 ## Conseils et limites
 
