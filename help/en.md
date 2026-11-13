@@ -76,7 +76,7 @@ Shows the programs that start by themselves when the PC boots, read from the reg
 
 - **Tools › Check updates** queries Windows `winget` (about 15 s) and saves the result in `updates.json`.
 - Items with a new version get the **Update** column (→ version), the **With update** category and a detail line. The **Update…** button (or right-click) runs `winget upgrade` in a console window, with confirmation; Windows may ask for the administrator password.
-- The app **cannot undo** an update. After updating, click Rescan.
+- The app **cannot undo** an update. When the winget window closes, the app checks winget again (without a message) and removes what was already updated from the list. For the Version column to show the new version, click Rescan.
 - Only programs that winget knows and that match the item name appear; Windows components, drivers and Store apps are left out.
 
 ## Duplicate versions
