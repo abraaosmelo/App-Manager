@@ -46,7 +46,7 @@ O app só lê informações. Ele só altera algo quando você manda: desinstalar
 
 A tabela tem estas colunas (clique com o **botão direito no título** de qualquer coluna para mostrar ou esconder; há "Restaurar colunas padrão"; a tabela ganha rolagem horizontal se não couber): Nome, Versão, Atualização, Tamanho, Disco, **Último uso**, **Vezes usado**, **Instalado em**, Inicia com Windows, Tags, Categoria › Subcategoria e Local. Clique no título para ordenar.
 
-- **Último uso e Vezes usado:** vêm do registro do Windows (UserAssist), que anota quando você abre um programa pelo Explorer, Menu Iniciar, barra de tarefas ou área de trabalho. Somam-se às aberturas feitas por este índice (vale o maior número, para não contar duas vezes). Os dados são lidos de novo toda vez que você volta para a janela.
+- **Último uso e Vezes usado:** vêm do registro do Windows (UserAssist), que anota quando você abre um programa pelo Explorer, Menu Iniciar, barra de tarefas ou área de trabalho. Somam-se às aberturas feitas por este índice (vale o maior número, para não contar duas vezes). Os dados são lidos de novo toda vez que você volta para a janela. A coluna Último uso se alarga sozinha para caber o texto mais longo.
 - **"sem registro"** significa que o Windows não anotou nenhuma abertura. Isso **não prova** que o programa nunca foi usado: o Windows não registra programas abertos por linha de comando, por scripts `.bat`, por serviços ou pelo Gerenciador de Tarefas, e o histórico só existe desde que o recurso foi ativado.
 - **Instalado em:** data de instalação do registro do Windows quando existe; senão, a data de criação da pasta do programa (pode ser a data em que a pasta foi copiada).
 

@@ -1,6 +1,6 @@
 import csv, datetime, html, hashlib, json, os, re, shutil, subprocess, sys, tempfile, threading, time, unicodedata, webbrowser
 import tkinter as tk
-from tkinter import ttk, messagebox, filedialog, simpledialog
+from tkinter import ttk, messagebox, filedialog, simpledialog, font as tkfont
 from pathlib import Path
 
 import config
@@ -567,11 +567,13 @@ class App(tk.Tk):
         self.tab.delete(*self.tab.get_children())
         self.rev = {}
         fav = set(self.usr["favoritos"])
+        widest = ""
         for n, i in enumerate(self.members(self.cur_cat, self.pool())):
             iid = str(n); self.rev[iid] = i
             name = ("★ " if i["name"] in fav else "") + i["name"] + ("  " + tr("(novo)") if i.get("novo") else "")
             n, t = self.last_used(i)
             ultimo = f"{t.strftime(tr('%d/%m/%Y'))} · {usage.rel_days(t)}" if t else (tr("sem registro") if i.get("target") else "")
+            widest = max(widest, ultimo, key=len)
             u = self.upd.get(i["name"])
             self.tab.insert("", "end", iid=iid, text=name, image=self.icon(i),
                             values=(i.get("ver") or "", f"→ {u['nova']}" if u else "", fmt(i.get("size")), disk_of(i),
@@ -580,6 +582,14 @@ class App(tk.Tk):
                                     f"{trc(i['category'])} › {trc(self.sub(i))}", i.get("location", "")))
             if i["name"] == prev:
                 self.tab.selection_set(iid)
+        self.fit_column("ultimo", widest)
+
+    def fit_column(self, col, text):
+        """Widen a column so `text` fits (the fixed width truncates in some languages and DPI scales); never shrinks it."""
+        f = tkfont.Font(font=ttk.Style().lookup("Treeview", "font") or "TkDefaultFont")
+        need = f.measure(text) + 16
+        if need > int(self.tab.column(col, "width")):
+            self.tab.column(col, width=need)
 
     def sort(self, col):
         rev = self.sortrev[col] = not self.sortrev.get(col, True)
