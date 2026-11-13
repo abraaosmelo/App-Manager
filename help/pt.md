@@ -76,7 +76,7 @@ Mostra os programas que abrem sozinhos ao ligar o PC, lidos das chaves *Run* do 
 
 - **Ferramentas › Verificar atualizações** consulta o `winget` do Windows (cerca de 15 s) e guarda o resultado em `updates.json`.
 - Itens com versão nova ganham a coluna **Atualização** (→ versão), a categoria **Com atualização** e a linha de detalhe. O botão **Atualizar…** (ou botão direito) executa `winget upgrade` numa janela de console, com confirmação; o Windows pode pedir senha de administrador.
-- O app **não consegue desfazer** uma atualização. Depois de atualizar, clique em Reescanear.
+- O app **não consegue desfazer** uma atualização. Quando a janela do winget fecha, o app consulta o winget de novo (sem mensagem) e tira da lista o que já foi atualizado. Para a coluna Versão mostrar a versão nova, clique em Reescanear.
 - Só aparecem programas que o winget conhece e que casam com o nome do item; componentes do Windows, drivers e apps da Loja ficam de fora.
 
 ## Versões duplicadas

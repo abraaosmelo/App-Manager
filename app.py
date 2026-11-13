@@ -120,6 +120,7 @@ class App(tk.Tk):
         self.cur_cat, self.rev, self.sortrev, self.icons, self.proc, self.mtime = "__all__", {}, {}, {}, None, 0
         self.usage, self.startup, self.dupg, self.upd, self.upd_info = {}, [], {}, {}, {}
         self.upd_thread = self.upd_result = None
+        self.upd_silent = False
         self.last_focus = 0.0
         self.limpeza_dias = int(config.load().get("limpeza_dias", 180))
         c = read_json(UPD, {})
@@ -872,11 +873,13 @@ class App(tk.Tk):
         w.bind("<Escape>", lambda e: w.destroy())
 
     # ---------- updates (winget) ----------
-    def check_updates(self):
+    def check_updates(self, silent=False):
+        """Ask winget for upgrades in a thread; `silent` skips the result/error dialogs (automatic re-check)."""
         if self.upd_thread and self.upd_thread.is_alive():
             return
         self.status.config(text=tr("Verificando atualizações (winget, ~15 s)…"))
         self.upd_result = None
+        self.upd_silent = silent
 
         def work():
             try: self.upd_result = ("ok", usage.winget_upgrades())
@@ -889,12 +892,16 @@ class App(tk.Tk):
             self.after(700, self.poll_upd); return
         kind, val = self.upd_result or ("erro", tr("sem resposta"))
         if kind == "erro":
+            if self.upd_silent:
+                self.refresh(); return
             messagebox.showerror(tr("Atualizações"), tr("Não consegui consultar o winget:\n{v}", v=val), parent=self)
             self.refresh(); return
         self.upd = usage.match_updates(self.items, val)
         self.upd_info = {"quando": time.strftime("%Y-%m-%d %H:%M"), "total": len(val)}
         write_json(UPD, {"quando": self.upd_info["quando"], "pacotes": val, "casados": self.upd})
         self.refresh()
+        if self.upd_silent:
+            return
         messagebox.showinfo(tr("Atualizações"), tr("O winget informou {a} pacote(s) com versão nova.\n"
                             "{b} deles correspondem a itens desta lista (categoria «Com atualização», coluna Atualização).\n"
                             "Os demais são componentes do Windows, drivers ou programas que não estão no índice.", a=len(val), b=len(self.upd)), parent=self)
@@ -910,8 +917,15 @@ class App(tk.Tk):
                                    "O app não consegue desfazer uma atualização.", n=i["name"], a=u["atual"], b=u["nova"], id=u["id"]), parent=self):
             return
         cmd = f'winget upgrade --id {u["id"]} -e --accept-source-agreements --accept-package-agreements & pause'
-        subprocess.Popen(["cmd", "/c", cmd], creationflags=0x10)       # CREATE_NEW_CONSOLE
+        proc = subprocess.Popen(["cmd", "/c", cmd], creationflags=0x10)       # CREATE_NEW_CONSOLE
+        self.after(2000, lambda: self.after_upgrade(proc))
         self.log("atualizar", i["name"], tr("Iniciou a atualização de {n} ({a} → {b}) pelo winget", n=i["name"], a=u["atual"], b=u["nova"]), None)
+
+    def after_upgrade(self, proc):
+        """When the winget console closes, re-check silently so updated items leave the «Com atualização» list."""
+        if proc.poll() is None:
+            self.after(2000, lambda: self.after_upgrade(proc)); return
+        self.check_updates(silent=True)
 
     # ---------- summary ----------
     def show_summary(self):

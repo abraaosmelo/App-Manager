@@ -76,7 +76,7 @@ Muestra los programas que se abren solos al encender el PC, leídos de las clave
 
 - **Herramientas › Buscar actualizaciones** consulta el `winget` de Windows (unos 15 s) y guarda el resultado en `updates.json`.
 - Los elementos con versión nueva reciben la columna **Actualización** (→ versión), la categoría **Con actualización** y una línea de detalle. El botón **Actualizar…** (o clic derecho) ejecuta `winget upgrade` en una ventana de consola, con confirmación; Windows puede pedir contraseña de administrador.
-- La aplicación **no puede deshacer** una actualización. Después de actualizar, haga clic en Reescanear.
+- La aplicación **no puede deshacer** una actualización. Cuando se cierra la ventana de winget, la aplicación consulta winget de nuevo (sin mensaje) y quita de la lista lo que ya se actualizó. Para que la columna Versión muestre la versión nueva, haga clic en Reescanear.
 - Solo aparecen programas que winget conoce y que coinciden con el nombre del elemento; los componentes de Windows, controladores y apps de la Tienda quedan fuera.
 
 ## Versiones duplicadas
