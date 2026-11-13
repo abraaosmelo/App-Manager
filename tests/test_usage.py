@@ -79,6 +79,23 @@ class ParseWingetTest(unittest.TestCase):
                      ("Has space", "Not An Id", "1.0", "2.0", "winget"))
         self.assertEqual([u["id"] for u in parse_winget(text)], ["Git.Git"])
 
+    def test_single_space_between_titles(self):
+        """A column just wide enough for its title leaves one space before the next title."""
+        text = table(("Git", "Git.Git", "2.45.1", "2.46.0", "winget"),
+                     ("Microsoft Edge", "Microsoft.Edge", "130.0.1", "131.0.2", "winget"),
+                     widths=(15, 15, 8, 14))
+        self.assertEqual(parse_winget(text), [
+            {"nome": "Git", "id": "Git.Git", "atual": "2.45.1", "nova": "2.46.0", "origem": "winget"},
+            {"nome": "Microsoft Edge", "id": "Microsoft.Edge", "atual": "130.0.1", "nova": "131.0.2", "origem": "winget"},
+        ])
+
+    def test_title_with_a_space_stays_one_column(self):
+        """A localized title such as "Versao atual" is one column, not two."""
+        text = table(("Git", "Git.Git", "2.45.1", "2.46.0", "winget"),
+                     head=["Nome", "ID", "Versao atual", "Disponivel", "Origem"], widths=(10, 10, 16, 14))
+        self.assertEqual(parse_winget(text), [
+            {"nome": "Git", "id": "Git.Git", "atual": "2.45.1", "nova": "2.46.0", "origem": "winget"}])
+
     def test_empty_list(self):
         self.assertEqual(parse_winget("No installed package found matching input criteria.\n"), [])
 
